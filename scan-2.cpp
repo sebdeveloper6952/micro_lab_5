@@ -133,7 +133,8 @@ int main( int argc, char* argv[])
     int oRows = I.rows;
     int oCols = I.cols;
     cout << "Image has dimensions: " << oCols << "x" << oRows << endl;
-    Mat duplicada = Mat(oRows*2, oCols*2, CV_8U);
+    int imageType = I.channels() == 3 ? CV_8UC3 : CV_8U;
+    Mat duplicada = Mat(oRows*2, oCols*2, imageType);
     cout << "Duplicated image has dimensions: " << duplicada.cols << "x" << duplicada.rows << endl;
     
     
@@ -172,9 +173,23 @@ void duplicateImage(Mat &input, Mat &output)
 		{
 			for(row = 0 ; row < input.rows; row++)
 			{
-				for(col = 0; col < input.cols; col++) 
+				for(col = 0; col < input.cols; col++)
 				{
-					
+					/// Blue color
+					output.at<Vec3b>(row*2, col*2)[0] = input.at<Vec3b>(row,col)[0];
+					output.at<Vec3b>(row*2, col*2+1)[0] = input.at<Vec3b>(row,col)[0];
+					output.at<Vec3b>(row*2+1, col*2)[0] = input.at<Vec3b>(row,col)[0];
+					output.at<Vec3b>(row*2+1, col*2+1)[0] = input.at<Vec3b>(row,col)[0];
+					/// Green color
+					output.at<Vec3b>(row*2, col*2)[1] = input.at<Vec3b>(row,col)[1];
+					output.at<Vec3b>(row*2, col*2+1)[1] = input.at<Vec3b>(row,col)[1];
+					output.at<Vec3b>(row*2+1, col*2)[1] = input.at<Vec3b>(row,col)[1];
+					output.at<Vec3b>(row*2+1, col*2+1)[1] = input.at<Vec3b>(row,col)[1];
+					/// Red color
+					output.at<Vec3b>(row*2, col*2)[2] = input.at<Vec3b>(row,col)[2];
+					output.at<Vec3b>(row*2, col*2+1)[2] = input.at<Vec3b>(row,col)[2];
+					output.at<Vec3b>(row*2+1, col*2)[2] = input.at<Vec3b>(row,col)[2];
+					output.at<Vec3b>(row*2+1, col*2+1)[2] = input.at<Vec3b>(row,col)[2];
 				}
 			}
 			break;
